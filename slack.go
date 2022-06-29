@@ -11,14 +11,16 @@ import (
 
 // SlackNotifier is used to send notifications to a Slack channel.
 type SlackNotifier struct {
-	URL    string
-	client *http.Client
+	URL         string
+	ContentType string
+	client      *http.Client
 }
 
 // NewSlackNotifier returns a new SlackNotifier for a given Slack channel.
 func NewSlackNotifier(url string) SlackNotifier {
 	return SlackNotifier{
-		URL: url,
+		URL:         url,
+		ContentType: "application/json",
 		client: &http.Client{
 			Timeout: time.Second * 10,
 		},
@@ -30,15 +32,16 @@ func NewSlackNotifier(url string) SlackNotifier {
 // Example
 //
 //     curl -X POST -H 'content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/xxx/yyy/zzzzzz
-func (s SlackNotifier) Notify(ctx context.Context, msg string) error {
-	n := NewSlackNotification(msg)
+func (s SlackNotifier) Notify(ctx context.Context, b []byte) error {
+	n := NewSlackNotification(string(b))
+
 	b, err := json.Marshal(n)
 	if err != nil {
 		return err
 	}
 
 	reader := bytes.NewReader(b)
-	response, err := s.client.Post(s.URL, "application/json", reader)
+	response, err := s.client.Post(s.URL, s.ContentType, reader)
 	if err != nil {
 		return err
 	}
