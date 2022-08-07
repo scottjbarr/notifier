@@ -1,7 +1,6 @@
 package main
 
 import (
-	"context"
 	"flag"
 	"fmt"
 	"os"
@@ -30,9 +29,7 @@ func main() {
 
 	b := []byte(msg)
 
-	ctx := context.Background()
-
-	if err := n.Notify(ctx, b); err != nil {
+	if err := n.Notify(b); err != nil {
 		panic(err)
 	}
 }
