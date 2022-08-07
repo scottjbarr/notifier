@@ -1,7 +1,6 @@
 package notifier
 
 import (
-	"context"
 	"strings"
 )
 
@@ -16,7 +15,7 @@ func NewMockNotifier() *MockNotifier {
 }
 
 // Notify stores a notification for reading later.
-func (s *MockNotifier) Notify(ctx context.Context, msg string) error {
+func (s *MockNotifier) Notify(msg string) error {
 	msg = strings.Replace(msg, "\n", " ", -1)
 
 	s.Notifications = append(s.Notifications, msg)

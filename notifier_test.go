@@ -1,7 +1,6 @@
 package notifier
 
 import (
-	"context"
 	"reflect"
 	"testing"
 )
@@ -9,9 +8,7 @@ import (
 func TestNotifier(t *testing.T) {
 	m := NewMockNotifier()
 
-	ctx := context.Background()
-
-	if err := m.Notify(ctx, "hello"); err != nil {
+	if err := m.Notify("hello"); err != nil {
 		t.Fatal(err)
 	}
 

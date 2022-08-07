@@ -2,7 +2,6 @@ package notifier
 
 import (
 	"bytes"
-	"context"
 	"encoding/json"
 	"fmt"
 	"net/http"
@@ -32,7 +31,7 @@ func NewSlackNotifier(url string) SlackNotifier {
 // Example
 //
 //     curl -X POST -H 'content-type: application/json' --data '{"text":"Hello, World!"}' https://hooks.slack.com/services/xxx/yyy/zzzzzz
-func (s SlackNotifier) Notify(ctx context.Context, b []byte) error {
+func (s SlackNotifier) Notify(b []byte) error {
 	n := NewSlackNotification(string(b))
 
 	b, err := json.Marshal(n)
